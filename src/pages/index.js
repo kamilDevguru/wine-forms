@@ -7,7 +7,7 @@ import Product from "../components/product"
 import CountryBox from "../components/CountryBox"
 import CityBox from "../components/CityBox"
 import DateBox from "../components/DateBox"
-// import Service from "../components/Service"
+import Service from "../components/Service"
 // import Quote from "../components/Quote"
 
 const TITLES = [
@@ -66,11 +66,11 @@ class IndexPage extends React.Component {
             {activeStep === 3 && (
               <DateBox />
             )}
-{/*}
+
             {activeStep === 4 && (
               <Service />
             )}
-            
+{/*}           
             {activeStep === 5 && (
               <Quote />
             )} */}

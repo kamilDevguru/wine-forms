@@ -1,27 +1,30 @@
-// import PropTypes from "prop-types"
 import React from "react"
 
-import "./style.scss";
+import "./style.scss"
 
-const Product = () => (
-  <div className="product__container">
-    <div className="product__item active" />
-    <div className="product__item" />
-    <div className="product__item" />
-    <div className="product__item" />
-    <div className="product__item" />
-    <div className="product__item" />
-    <div className="product__item" />
-    <div className="product__item" />
+const CHARGES = [
+  {
+    title: 'Total charges',
+    price: 980,
+  },
+  {
+    title: 'Total charges',
+    price: 980,
+  },
+];
+
+const Quote = () => (
+  <div className="quote__container">
+    {CHARGES.map(({title, price}, index) => (
+      <div
+        key={index}
+        className="quote__item"
+      >
+        <h5>{title}</h5>
+        <h2>{`¥${price}`}</h2>
+      </div>
+    ))}
   </div>
 );
 
-// Header.propTypes = {
-//   siteTitle: PropTypes.string,
-// }
-
-// Header.defaultProps = {
-//   siteTitle: ``,
-// }
-
-export default Product;
+export default Quote;

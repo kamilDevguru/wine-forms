@@ -8,7 +8,7 @@ import CountryBox from "../components/CountryBox"
 import CityBox from "../components/CityBox"
 import DateBox from "../components/DateBox"
 import Service from "../components/Service"
-// import Quote from "../components/Quote"
+import Quote from "../components/Quote"
 
 const TITLES = [
   'What type of product are you importing?',
@@ -70,10 +70,10 @@ class IndexPage extends React.Component {
             {activeStep === 4 && (
               <Service />
             )}
-{/*}           
+
             {activeStep === 5 && (
               <Quote />
-            )} */}
+            )}
           </div>
           <Button
             className="index__button"

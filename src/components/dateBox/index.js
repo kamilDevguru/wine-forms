@@ -1,4 +1,5 @@
 import React from "react"
+import classNames from "classnames"
 import { Form, Row, Col } from "react-bootstrap"
 
 import "./style.scss"
@@ -13,7 +14,17 @@ class DateBox extends React.Component {
     }
   }
 
+  handleClick = (key, value) => {
+    this.setState({ [key]: value });
+  }
+
   render() {
+    const {
+      isShipped,
+      isArrived,
+      isSeized,
+    } = this.state;
+
     return (
       <>
         <Form.Group className="date__group" controlId="formShipped">
@@ -23,7 +34,10 @@ class DateBox extends React.Component {
           <Row className="data__row">
             <Col
               sm={4}
-              className="date__option active"
+              className={
+                classNames("date__option", { "active": !isShipped })
+              }
+              onClick={() => this.handleClick('isShipped', false)}
             >
               <p>
                 No
@@ -31,7 +45,10 @@ class DateBox extends React.Component {
             </Col>
             <Col
               sm={4}
-              className="date__option"
+              className={
+                classNames("date__option", { "active": isShipped })
+              }
+              onClick={() => this.handleClick('isShipped', true)}
             >
               <p>
                 Yes
@@ -46,7 +63,10 @@ class DateBox extends React.Component {
           <Row className="data__row">
             <Col
               sm={4}
-              className="date__option active"
+              className={
+                classNames("date__option", { "active": !isArrived })
+              }
+              onClick={() => this.handleClick('isArrived', false)}
             >
               <p>
                 No
@@ -54,7 +74,10 @@ class DateBox extends React.Component {
             </Col>
             <Col
               sm={4}
-              className="date__option"
+              className={
+                classNames("date__option", { "active": isArrived })
+              }
+              onClick={() => this.handleClick('isArrived', true)}
             >
               <p>
                 Yes
@@ -84,7 +107,10 @@ class DateBox extends React.Component {
           <Row className="data__row">
             <Col
               sm={12}
-              className="date__option active"
+              className={
+                classNames("date__option", { "active": !isSeized })
+              }
+              onClick={() => this.handleClick('isSeized', false)}
             >
               <p>
                 No, my goods are fine.
@@ -92,7 +118,10 @@ class DateBox extends React.Component {
             </Col>
             <Col
               sm={12}
-              className="date__option"
+              className={
+                classNames("date__option", { "active": isSeized })
+              }
+              onClick={() => this.handleClick('isSeized', true)}
             >
               <p>
                 Yes, customs has seized my goods. Help!

@@ -1,0 +1,26 @@
+.index__title {
+  font-family: GraphikBold;
+  font-size: 24px;
+  line-height: 28px;
+  letter-spacing: -0.01em;
+  color: #262A2B;
+}
+
+.index__content {
+  margin-top: 41px;
+}
+
+.index__button {
+  position: absolute;
+  bottom: 24px;
+  left: 32px;
+  width: calc(100% - 64px);
+  background: #00B7AC;
+  border-radius: 8px;
+  border: none;
+  color: white;
+  font-family: GraphikRegular;
+  font-size: 16px;
+  line-height: 28px;
+  padding: 11px;
+}

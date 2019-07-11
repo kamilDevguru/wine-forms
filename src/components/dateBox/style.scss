@@ -1,0 +1,46 @@
+.data__group {
+  margin-bottom: 21px;
+}
+
+.date__label {
+  font-family: GraphikBold;
+  font-size: 16px;
+  line-height: 28px;
+  letter-spacing: -0.01em;
+  color: #262A2B;
+  margin-bottom: 8px;
+}
+
+.data__row {
+  margin: 0;
+}
+
+.date__option {
+  height: 40px;
+  padding: 12px auto 10px;
+  font-family: GraphikRegular;
+  font-size: 14px;
+  line-height: 18px;
+  display: flex;
+  justify-content: center;
+  color: #262A2B;
+  border: 1px solid #B5BCBD;
+  box-sizing: border-box;
+  border-radius: 4px;
+  margin-right: 8px;
+  margin-bottom: 11px;
+
+  &:hover {
+    background: white;
+    cursor: pointer;
+  }
+
+  p {
+    padding: 10px;
+  }
+}
+
+.active {
+  color: #00B7AC;
+  border: 1px solid #00B7AC;
+}

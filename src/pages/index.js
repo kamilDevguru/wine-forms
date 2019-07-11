@@ -6,7 +6,7 @@ import SEO from "../components/seo"
 import Product from "../components/product"
 import CountryBox from "../components/countryBox"
 import CityBox from "../components/cityBox"
-import DateBox from "../components/cateBox"
+import DateBox from "../components/dateBox"
 import Service from "../components/service"
 import Quote from "../components/quote"
 

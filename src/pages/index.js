@@ -4,11 +4,11 @@ import { Button, Form } from "react-bootstrap"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import Product from "../components/product"
-import CountryBox from "../components/CountryBox"
-import CityBox from "../components/CityBox"
-import DateBox from "../components/DateBox"
-import Service from "../components/Service"
-import Quote from "../components/Quote"
+import CountryBox from "../components/countryBox"
+import CityBox from "../components/cityBox"
+import DateBox from "../components/cateBox"
+import Service from "../components/service"
+import Quote from "../components/quote"
 
 const TITLES = [
   'What type of product are you importing?',

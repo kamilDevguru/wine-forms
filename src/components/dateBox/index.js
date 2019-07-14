@@ -15,6 +15,7 @@ class DateBox extends React.Component {
   }
 
   handleClick = (key, value) => {
+    console.log('value :', value);
     this.setState({ [key]: value });
   }
 
@@ -24,70 +25,64 @@ class DateBox extends React.Component {
       isArrived,
       isSeized,
     } = this.state;
+    const {      
+      shipLabel,
+      shippedOptions,
+      arriveLabel,
+      arrivedOptions,
+      seizeLabel,
+      seizedOptions,
+      estimateLabel,
+      estimatedDate,
+    } = this.props;
 
     return (
       <>
         <Form.Group className="date__group" controlId="formShipped">
           <Form.Label className="date__label">
-            Have your goods already been shipped?
+            {shipLabel}
           </Form.Label>
           <Row className="data__row">
-            <Col
-              sm={4}
-              className={
-                classNames("date__option", { "active": !isShipped })
-              }
-              onClick={() => this.handleClick('isShipped', false)}
-            >
-              <p>
-                No
-              </p>
-            </Col>
-            <Col
-              sm={4}
-              className={
-                classNames("date__option", { "active": isShipped })
-              }
-              onClick={() => this.handleClick('isShipped', true)}
-            >
-              <p>
-                Yes
-              </p>
-            </Col>
+            {shippedOptions.map(option => (
+              <Col
+                key={option.flag}
+                sm={4}
+                className={
+                  classNames("date__option", { "active": isShipped === option.flag })
+                }
+                onClick={() => this.handleClick('isShipped', option.flag)}
+              >
+                <p>
+                  {option.label}
+                </p>
+              </Col>
+            ))}
           </Row>
         </Form.Group>
         <Form.Group className="date__group" controlId="formArrived">
           <Form.Label className="date__label">
-            Have your goods arrived at customs?
+            {arriveLabel}
           </Form.Label>
           <Row className="data__row">
-            <Col
-              sm={4}
-              className={
-                classNames("date__option", { "active": !isArrived })
-              }
-              onClick={() => this.handleClick('isArrived', false)}
-            >
-              <p>
-                No
-              </p>
-            </Col>
-            <Col
-              sm={4}
-              className={
-                classNames("date__option", { "active": isArrived })
-              }
-              onClick={() => this.handleClick('isArrived', true)}
-            >
-              <p>
-                Yes
-              </p>
-            </Col>
+            {arrivedOptions.map(option => (
+              <Col
+                key={option.flag}
+                sm={4}
+                className={
+                  classNames("date__option", { "active": isArrived === option.flag })
+                }
+                onClick={() => this.handleClick('isArrived', option.flag)}
+              >
+                <p>
+                  {option.label}
+                </p>
+              </Col>
+            ))}
           </Row>
         </Form.Group>
         <Form.Group className="date__group" controlId="formDate">
           <Form.Label className="date__label">
-            Estimated date of arrival
+            {estimateLabel}
           </Form.Label>
           <Row className="data__row">
             <Col
@@ -95,38 +90,30 @@ class DateBox extends React.Component {
               className="date__option"
             >
               <p>
-                Friday, 15 July 2019
+                {estimatedDate}
               </p>
             </Col>
           </Row>
         </Form.Group>
         <Form.Group className="date__group" controlId="formSeized">
           <Form.Label className="date__label">
-            Has customs seized your goals?
+            {seizeLabel}
           </Form.Label>
           <Row className="data__row">
-            <Col
-              sm={12}
-              className={
-                classNames("date__option", { "active": !isSeized })
-              }
-              onClick={() => this.handleClick('isSeized', false)}
-            >
-              <p>
-                No, my goods are fine.
-              </p>
-            </Col>
-            <Col
-              sm={12}
-              className={
-                classNames("date__option", { "active": isSeized })
-              }
-              onClick={() => this.handleClick('isSeized', true)}
-            >
-              <p>
-                Yes, customs has seized my goods. Help!
-              </p>
-            </Col>
+            {seizedOptions.map(option => (
+              <Col              
+                key={option.flag}
+                sm={12}
+                className={
+                  classNames("date__option", { "active": isSeized === option.flag })
+                }
+                onClick={() => this.handleClick('isSeized', option.flag)}
+              >
+                <p>
+                  {option.label}
+                </p>
+              </Col>
+            ))}
           </Row>
         </Form.Group>
       </>

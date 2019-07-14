@@ -3,30 +3,18 @@ import Select from "react-select"
 
 import "./style.scss";
 
-const countries = [
-  {
-    label: 'Andorra',
-    value: 'Andorra',
-  },
-  {
-    label: 'Angola',
-    value: 'Angola',
-  },
-  {
-    label: 'Antigua and Barbuda',
-    value: 'Antigua and Barbuda',
-  },
-  {
-    label: 'Algeria',
-    value: 'Algeria',
-  },
-]
-
 class CountryBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = { selectedOption: '' };
   }
+
+  getFormattedArray = (arr) => (
+    arr.map(item => ({
+      value: item.key,
+      label: item.name,
+    }))
+  )
 
   handleChange = selectedOption => {
     this.setState({ selectedOption });
@@ -34,28 +22,26 @@ class CountryBox extends React.Component {
   
   render() {
     const { selectedOption } = this.state;
+    const {
+      inputLabel,
+      placeholder,
+      countries,
+    } = this.props;
 
     return (
       <div className="country__container">
         <p className="country__label">
-          Country of origin
+          {inputLabel}
         </p>
         <Select
           value={selectedOption}
           onChange={this.handleChange}
-          options={countries}
+          options={this.getFormattedArray(countries)}
+          placeholder={placeholder}
         />
       </div>
     );
   }
 }
-
-// Header.propTypes = {
-//   siteTitle: PropTypes.string,
-// }
-
-// Header.defaultProps = {
-//   siteTitle: ``,
-// }
 
 export default CountryBox;

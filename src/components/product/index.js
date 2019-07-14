@@ -3,18 +3,11 @@ import classNames from "classnames"
 
 import "./style.scss";
 
-const PRODUCTS = [
-  'car',
-  'bear',
-  'shoes',
-  'shirt',
-];
-
 class Product extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedProducts: ['car'],
+      selectedProducts: [],
     };
   }
 
@@ -33,18 +26,21 @@ class Product extends React.Component {
   }
 
   render() {
+    const { data } = this.props;
     const { selectedProducts } = this.state;
   
     return (
       <div className="product__container">
-        {PRODUCTS.map((product, idx) => (
+        {data.map(({image, type}) => (
           <div
-            key={idx}
+            key={type}
             className={
-              classNames("product__item", {"active": selectedProducts.includes(product)})
+              classNames("product__item", {"active": selectedProducts.includes(type)})
             }
-            onClick={() => this.handleClick(product)}
-          />
+            onClick={() => this.handleClick(type)}
+          >
+            <img src={image.resolutions.src} alt="product" />
+          </div>
         ))}
       </div>
     );

@@ -85,15 +85,33 @@ class IndexPage extends React.Component {
       quoteData
     } = this.state;
     let content = <div />;
+    console.log('this.state :', this.state);
 
     if (activeStep === 0) {
-      content = <Product data={productData} />
+      content = <Product data={productData.node.productList} />
     } else if (activeStep === 1) {
-      content = <CountryBox data={countryData} />
+      content = (<CountryBox
+        inputLabel={countryData.node.inputBoxLabel}
+        placeholder={countryData.node.placeholder}
+        countries={countryData.node.countries}
+      />)
     } else if (activeStep === 2) {
-      content = <CityBox data={cityData} />
+      content = (<CityBox
+        inputLabel={cityData.node.inputBoxLabel}
+        placeholder={cityData.node.placeholder}
+        cities={cityData.node.countries}
+      />)
     } else if (activeStep === 3) {
-      content = <DateBox data={optionData} />
+      content = (<DateBox
+        shipLabel={optionData.node.shipLabel}
+        shippedOptions={optionData.node.shippedOptions}
+        arriveLabel={optionData.node.arriveLabel}
+        arrivedOptions={optionData.node.arrivedOptions}
+        seizeLabel={optionData.node.seizeLabel}
+        seizedOptions={optionData.node.seizedOptions}
+        estimateLabel={optionData.node.estimateLabel}
+        estimatedDate={optionData.node.estimatedDate}
+      />)
     } else if (activeStep === 4) {
       content = <Service data={serviceData} />
     } else if (activeStep === 5) {
@@ -114,10 +132,6 @@ class IndexPage extends React.Component {
   }
 
   render() {
-    const { activeStep } = this.state;
-    const { data } = this.props;
-    console.log('data :', data);
-
     return (
       <Layout pageInfo={{ pageName: "index" }}>
         <SEO title="Home" keywords={[`gatsby`, `react`, `bootstrap`]} />
@@ -128,29 +142,7 @@ class IndexPage extends React.Component {
         </div>
         <Form>
           <div className="index__content">
-            {activeStep === 0 && (
-              <Product />
-            )}
-
-            {activeStep === 1 && (
-              <CountryBox />
-            )}
-    
-            {activeStep === 2 && (
-              <CityBox />
-            )}
-
-            {activeStep === 3 && (
-              <DateBox />
-            )}
-
-            {activeStep === 4 && (
-              <Service />
-            )}
-
-            {activeStep === 5 && (
-              <Quote />
-            )}
+            {this.getContent()}
           </div>
           <Button
             className="index__button"

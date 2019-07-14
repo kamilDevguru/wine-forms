@@ -1,6 +1,7 @@
 import React from "react"
 import { Button, Form } from "react-bootstrap"
 import { graphql } from 'gatsby'
+import { getUserLangKey } from 'ptz-i18n'
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
@@ -11,22 +12,95 @@ import DateBox from "../components/dateBox"
 import Service from "../components/service"
 import Quote from "../components/quote"
 
-const TITLES = [
-  'What type of product are you importing?',
-  'Which country are you importing from?',
-  'Where is your shipment going?',
-  'When is your shipment coming?',
-  'What services do you need?',
-  // 'One moment please...',
-  'Your quote is ready'
-];
+const COUNTRY_KEY = 'country';
+const CITY_KEY = 'city';
+
+const getLocaleData = (props, key) => {
+  const { langs, defaultLangKey } = props.data.site.siteMetadata.languages;
+  const langKey = getUserLangKey(langs, defaultLangKey);
+
+  return props.data[key].edges.filter(item => item.node.node_locale.includes(langKey));
+}
 
 class IndexPage extends React.Component {
   constructor(props) {
     super(props);
+    const productData = getLocaleData(props, 'products')[0];
+    const countryData = getLocaleData(props, 'selector').find(item => item.node.key === COUNTRY_KEY);
+    const cityData = getLocaleData(props, 'selector').find(item => item.node.key === CITY_KEY);
+    const optionData = getLocaleData(props, 'options')[0];
+    const serviceData = getLocaleData(props, 'services')[0];
+    const spinnerData = getLocaleData(props, 'spinner')[0];    
+    const quoteData = getLocaleData(props, 'quotes')[0];
+
     this.state = {
       activeStep: 0,
+      productData,
+      countryData,
+      cityData,
+      optionData,
+      serviceData,
+      spinnerData,
+      quoteData
     }
+  }
+
+  getTitle = () => {    
+    const {
+      activeStep,
+      productData,
+      countryData,
+      cityData,
+      optionData,
+      serviceData,
+      quoteData
+    } = this.state;
+    let title = '';
+
+    if (activeStep === 0) {
+      title = productData.node.label;
+    } else if (activeStep === 1) {
+      title = countryData.node.label;
+    } else if (activeStep === 2) {
+      title = cityData.node.label;
+    } else if (activeStep === 3) {
+      title = optionData.node.label;
+    } else if (activeStep === 4) {
+      title = serviceData.node.label;
+    } else if (activeStep === 5) {
+      title = quoteData.node.label;
+    } 
+
+    return title;
+  }
+
+  getContent = () => {   
+    const {
+      activeStep,
+      productData,
+      countryData,
+      cityData,
+      optionData,
+      serviceData,
+      quoteData
+    } = this.state;
+    let content = <div />;
+
+    if (activeStep === 0) {
+      content = <Product data={productData} />
+    } else if (activeStep === 1) {
+      content = <CountryBox data={countryData} />
+    } else if (activeStep === 2) {
+      content = <CityBox data={cityData} />
+    } else if (activeStep === 3) {
+      content = <DateBox data={optionData} />
+    } else if (activeStep === 4) {
+      content = <Service data={serviceData} />
+    } else if (activeStep === 5) {
+      content = <Quote data={quoteData} />
+    } 
+
+    return content;
   }
 
   handleContinue = () => {
@@ -49,7 +123,7 @@ class IndexPage extends React.Component {
         <SEO title="Home" keywords={[`gatsby`, `react`, `bootstrap`]} />
         <div>
           <h3 className="index__title">
-            {TITLES[activeStep]}
+            {this.getTitle()}
           </h3>
         </div>
         <Form>
@@ -95,10 +169,20 @@ export default IndexPage
 
 export const query = graphql`
   query {
+    site {
+      siteMetadata{
+        languages {
+          defaultLangKey
+          langs
+        }
+      }
+    }
+
     products: allContentfulProductPage {
       edges {
         node {
           label
+          node_locale
           productList {
             image {
               resolutions {
@@ -116,6 +200,7 @@ export const query = graphql`
         node {
           key
           label
+          node_locale
           countries {
             ... on ContentfulCountry {
               name
@@ -135,6 +220,8 @@ export const query = graphql`
     options: allContentfulOptionPage {
       edges {
         node {
+          label
+          node_locale
           arriveLabel
           arrivedOptions {
             flag
@@ -142,7 +229,6 @@ export const query = graphql`
           }
           estimateLabel
           estimatedDate(formatString: "dddd, Do MMMM YYYY")
-          label
           seizeLabel
           seizedOptions {
             flag
@@ -161,6 +247,7 @@ export const query = graphql`
       edges {
         node {
           label
+          node_locale
           services {
             title
             icon {
@@ -178,6 +265,7 @@ export const query = graphql`
       edges {
         node {
           label
+          node_locale
           quotes {
             label
             charge
@@ -191,6 +279,7 @@ export const query = graphql`
       edges {
         node {
           label
+          node_locale
           note
         }
       }

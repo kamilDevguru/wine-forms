@@ -1,48 +1,41 @@
 import React from "react"
 import classNames from "classnames"
 
-import Plane from "./asset/plane.svg"
-import PlaneActive from "./asset/plane-active.svg"
 import "./style.scss"
-
-const SERVICES = [
-  'Customs clearance',
-  'Warehousing',
-  'Cold-chain logistics',
-  'Delivery',
-];
 
 class Service extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      services: [0, 1],
+      activeServices: [],
     }
   }
 
-  handleClick = (index) => {
-    const { services } = this.state;
+  handleClick = (title) => {
+    const { activeServices } = this.state;
+    console.log('title :', title);
 
-    if (services.includes(index)) {
-      this.setState({ services: services.filter(service => service !== index)});
+    if (activeServices.includes(title)) {
+      this.setState({ activeServices: activeServices.filter(service => service !== title)});
     } else {
-      this.setState({ services: [...services, index]});
+      this.setState({ activeServices: [...activeServices, title]});
     }
   }
 
   render() {
-    const { services } = this.state;
+    const { activeServices } = this.state;
+    const { services } = this.props;
 
     return (
       <>
-        {SERVICES.map((service, index) => (
+        {services.map(({ title, icon, activeIcon }) => (
           <div
-            key={index}
-            className={classNames("service__item", { "active": services.includes(index) })}
-            onClick={() => this.handleClick(index)}
+            key={title}
+            className={classNames("service__item", { "active": activeServices.includes(title) })}
+            onClick={() => this.handleClick(title)}
           >
-            <img src={services.includes(index) ? PlaneActive : Plane} alt="plane" />
-            <h5>{service}</h5>
+            <img src={activeServices.includes(title) ? activeIcon.resolutions.src : icon.resolutions.src} alt="icon" />
+            <h5>{title}</h5>
           </div>
         ))}
       </>

@@ -11,6 +11,7 @@ import CityBox from "../components/cityBox"
 import DateBox from "../components/dateBox"
 import Service from "../components/service"
 import Quote from "../components/quote"
+import Spinner from "../components/spinner"
 
 const COUNTRY_KEY = 'country';
 const CITY_KEY = 'city';
@@ -41,7 +42,8 @@ class IndexPage extends React.Component {
       optionData,
       serviceData,
       spinnerData,
-      quoteData
+      quoteData,
+      isSpinning: false,
     }
   }
 
@@ -53,9 +55,13 @@ class IndexPage extends React.Component {
       cityData,
       optionData,
       serviceData,
-      quoteData
+      quoteData,
+      spinnerData,
+      isSpinning,
     } = this.state;
     let title = '';
+
+    if (isSpinning) return spinnerData.node.label;
 
     if (activeStep === 0) {
       title = productData.node.label;
@@ -82,8 +88,12 @@ class IndexPage extends React.Component {
       cityData,
       optionData,
       serviceData,
-      quoteData
+      quoteData,
+      spinnerData,
+      isSpinning,
     } = this.state;
+
+    if (isSpinning) return <Spinner note={spinnerData.node.note} />
     let content = <div />;
     console.log('this.state :', this.state);
 
@@ -113,9 +123,13 @@ class IndexPage extends React.Component {
         estimatedDate={optionData.node.estimatedDate}
       />)
     } else if (activeStep === 4) {
-      content = <Service data={serviceData} />
+      content = (<Service
+        services={serviceData.node.services}
+      />)
     } else if (activeStep === 5) {
-      content = <Quote data={quoteData} />
+      content = (<Quote
+        quotes={quoteData.node.quotes}
+      />)
     } 
 
     return content;
@@ -243,6 +257,11 @@ export const query = graphql`
           services {
             title
             icon {
+              resolutions {
+                src
+              }
+            }
+            activeIcon {
               resolutions {
                 src
               }

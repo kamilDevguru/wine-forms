@@ -1,9 +1,15 @@
+const languages = require('./src/data/languages');
+const dotenv = require('dotenv');
+
+dotenv.config();
+
 module.exports = {
   pathPrefix: "/gatsby-react-bootstrap-starter",
   siteMetadata: {
-    title: `Gatsby React Bootstrap Starter`,
-    description: `A starter that includes react-bootstrap and react-icons, along with SASS compilation.`,
-    author: `Billy Jacoby`,
+    title: `Gatsby Forms`,
+    description: `Forms built by Gatsby, Contentful.`,
+    author: `Kamil Czoska`,
+    languages,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -28,6 +34,13 @@ module.exports = {
         display: `minimal-ui`,
       },
     },
+    {
+      resolve: `gatsby-source-contentful`,
+      options: {
+        spaceId: process.env.CONTENTFUL_SPACE_ID,
+        accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
+      }
+    }
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,

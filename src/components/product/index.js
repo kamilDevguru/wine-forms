@@ -37,8 +37,9 @@ class Product extends React.Component {
   
     return (
       <div className="product__container">
-        {PRODUCTS.map(product => (
+        {PRODUCTS.map((product, idx) => (
           <div
+            key={idx}
             className={
               classNames("product__item", {"active": selectedProducts.includes(product)})
             }
@@ -49,13 +50,5 @@ class Product extends React.Component {
     );
   }
 }
-
-// Header.propTypes = {
-//   siteTitle: PropTypes.string,
-// }
-
-// Header.defaultProps = {
-//   siteTitle: ``,
-// }
 
 export default Product;

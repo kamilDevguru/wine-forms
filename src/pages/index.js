@@ -154,7 +154,14 @@ class IndexPage extends React.Component {
             {this.getTitle()}
           </h3>
         </div>
-        <Form>
+        <Form
+          name="wine-form"
+          method="post"
+          data-netlify="true"
+          data-neltify-honeypot="bot-field"
+        >
+          <input type="hidden" name="bot-field" />
+          <input type="hidden" name="form-name" value="wine-form" />
           <div className="index__content">
             {this.getContent()}
           </div>

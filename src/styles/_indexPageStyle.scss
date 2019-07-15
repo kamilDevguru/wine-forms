@@ -15,7 +15,7 @@
   bottom: 24px;
   left: 32px;
   width: calc(100% - 64px);
-  background: #00B7AC;
+  background: $color-secondary;
   border-radius: 8px;
   border: none;
   color: white;
@@ -26,6 +26,6 @@
 }
 
 .active {
-  color: #00B7AC !important;
-  border: 2px solid #00B7AC;
+  color: $color-secondary !important;
+  border: 2px solid $color-secondary;
 }

@@ -26,13 +26,13 @@ const getLocaleData = (props, key) => {
 class IndexPage extends React.Component {
   constructor(props) {
     super(props);
-    const productData = getLocaleData(props, 'products')[0];
-    const countryData = getLocaleData(props, 'selector').find(item => item.node.key === COUNTRY_KEY);
-    const cityData = getLocaleData(props, 'selector').find(item => item.node.key === CITY_KEY);
-    const optionData = getLocaleData(props, 'options')[0];
-    const serviceData = getLocaleData(props, 'services')[0];
-    const spinnerData = getLocaleData(props, 'spinner')[0];    
-    const quoteData = getLocaleData(props, 'quotes')[0];
+    const productData = getLocaleData(props, 'products')[0].node;
+    const countryData = getLocaleData(props, 'selector').find(item => item.node.key === COUNTRY_KEY).node;
+    const cityData = getLocaleData(props, 'selector').find(item => item.node.key === CITY_KEY).node;
+    const optionData = getLocaleData(props, 'options')[0].node;
+    const serviceData = getLocaleData(props, 'services')[0].node;
+    const spinnerData = getLocaleData(props, 'spinner')[0].node;    
+    const quoteData = getLocaleData(props, 'quotes')[0].node;
 
     this.state = {
       activeStep: 0,
@@ -44,6 +44,13 @@ class IndexPage extends React.Component {
       spinnerData,
       quoteData,
       isSpinning: false,
+      selectedProducts: [],
+      originCountry: '',
+      pickUpCity: '',
+      isShipped: false,
+      isArrived: false,
+      isSeized: false,
+      selectedServices: [],
     }
   }
 
@@ -61,20 +68,20 @@ class IndexPage extends React.Component {
     } = this.state;
     let title = '';
 
-    if (isSpinning) return spinnerData.node.label;
+    if (isSpinning) return spinnerData.label;
 
     if (activeStep === 0) {
-      title = productData.node.label;
+      title = productData.label;
     } else if (activeStep === 1) {
-      title = countryData.node.label;
+      title = countryData.label;
     } else if (activeStep === 2) {
-      title = cityData.node.label;
+      title = cityData.label;
     } else if (activeStep === 3) {
-      title = optionData.node.label;
+      title = optionData.label;
     } else if (activeStep === 4) {
-      title = serviceData.node.label;
+      title = serviceData.label;
     } else if (activeStep === 5) {
-      title = quoteData.node.label;
+      title = quoteData.label;
     } 
 
     return title;
@@ -91,44 +98,65 @@ class IndexPage extends React.Component {
       quoteData,
       spinnerData,
       isSpinning,
+      selectedProducts,
+      originCountry,
+      pickUpCity,
+      isShipped,
+      isArrived,
+      isSeized,
+      selectedServices,
     } = this.state;
 
-    if (isSpinning) return <Spinner note={spinnerData.node.note} />
+    if (isSpinning) return <Spinner note={spinnerData.note} />
     let content = <div />;
     console.log('this.state :', this.state);
 
     if (activeStep === 0) {
-      content = <Product data={productData.node.productList} />
+      content = (<Product
+        data={productData.productList}
+        selectedProducts={selectedProducts}
+        handleSelect={this.handleProductsChange}
+      />)
     } else if (activeStep === 1) {
       content = (<CountryBox
-        inputLabel={countryData.node.inputBoxLabel}
-        placeholder={countryData.node.placeholder}
-        countries={countryData.node.countries}
+        inputLabel={countryData.inputBoxLabel}
+        placeholder={countryData.placeholder}
+        countries={countryData.countries}
+        originCountry={originCountry}
+        handleSelect={originCountry => this.setState({originCountry})}
       />)
     } else if (activeStep === 2) {
       content = (<CityBox
-        inputLabel={cityData.node.inputBoxLabel}
-        placeholder={cityData.node.placeholder}
-        cities={cityData.node.countries}
+        inputLabel={cityData.inputBoxLabel}
+        placeholder={cityData.placeholder}
+        cities={cityData.countries}
+        pickUpCity={pickUpCity}
+        handleSelect={pickUpCity => this.setState({pickUpCity})}
       />)
     } else if (activeStep === 3) {
       content = (<DateBox
-        shipLabel={optionData.node.shipLabel}
-        shippedOptions={optionData.node.shippedOptions}
-        arriveLabel={optionData.node.arriveLabel}
-        arrivedOptions={optionData.node.arrivedOptions}
-        seizeLabel={optionData.node.seizeLabel}
-        seizedOptions={optionData.node.seizedOptions}
-        estimateLabel={optionData.node.estimateLabel}
-        estimatedDate={optionData.node.estimatedDate}
+        shipLabel={optionData.shipLabel}
+        shippedOptions={optionData.shippedOptions}
+        arriveLabel={optionData.arriveLabel}
+        arrivedOptions={optionData.arrivedOptions}
+        seizeLabel={optionData.seizeLabel}
+        seizedOptions={optionData.seizedOptions}
+        estimateLabel={optionData.estimateLabel}
+        estimatedDate={optionData.estimatedDate}
+        isShipped={isShipped}
+        isArrived={isArrived}
+        isSeized={isSeized}
+        handleChange={(key, value) => {this.setState({[key]: value})}}
       />)
     } else if (activeStep === 4) {
       content = (<Service
-        services={serviceData.node.services}
+        services={serviceData.services}
+        selectedServices={selectedServices}
+        handleSelect={(arr) => this.setState({selectedServices: arr})}
       />)
     } else if (activeStep === 5) {
       content = (<Quote
-        quotes={quoteData.node.quotes}
+        quotes={quoteData.quotes}
       />)
     } 
 
@@ -143,6 +171,12 @@ class IndexPage extends React.Component {
     this.setState(({ activeStep }) => ({
       activeStep: activeStep + 1,
     }));
+  }
+
+  handleProductsChange = (products) => {
+    this.setState({
+      selectedProducts: products,
+    });
   }
 
   render() {

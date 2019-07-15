@@ -4,30 +4,18 @@ import classNames from "classnames"
 import "./style.scss";
 
 class Product extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedProducts: [],
-    };
-  }
-
   handleClick = (product) => {
-    const { selectedProducts } = this.state;
+    const { selectedProducts } = this.props;
+    const newProducts = selectedProducts.includes(product)
+      ? selectedProducts.filter(p => p !== product)
+      : [...selectedProducts, product];
 
-    if (selectedProducts.includes(product)) {
-      this.setState({
-        selectedProducts: selectedProducts.filter(p => p !== product),
-      });
-    } else {
-      this.setState({
-        selectedProducts: [...selectedProducts, product],
-      });
-    }
+    this.props.handleSelect(newProducts);
   }
 
   render() {
     const { data } = this.props;
-    const { selectedProducts } = this.state;
+    const { selectedProducts } = this.props;
   
     return (
       <div className="product__container">

@@ -4,28 +4,20 @@ import Select from "react-select"
 import "./style.scss";
 
 class CityBox extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { selectedOption: '' };
-  }
-
   getFormattedArray = (arr) => (
     arr.map(item => ({
       value: item.key,
       label: item.name,
     }))
   )
-
-  handleChange = selectedOption => {
-    this.setState({ selectedOption });
-  }
   
   render() {
-    const { selectedOption } = this.state;
     const {
+      pickUpCity,
       inputLabel,
       placeholder,
       cities,
+      handleSelect,
     } = this.props;
 
     return (
@@ -34,8 +26,8 @@ class CityBox extends React.Component {
           {inputLabel}
         </p>
         <Select
-          value={selectedOption}
-          onChange={this.handleChange}
+          value={pickUpCity}
+          onChange={handleSelect}
           options={this.getFormattedArray(cities)}
           placeholder={placeholder}
         />

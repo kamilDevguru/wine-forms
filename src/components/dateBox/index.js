@@ -5,26 +5,7 @@ import { Form, Row, Col } from "react-bootstrap"
 import "./style.scss"
 
 class DateBox extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isShipped: false,
-      isArrived: false,
-      isSeized: false,
-    }
-  }
-
-  handleClick = (key, value) => {
-    console.log('value :', value);
-    this.setState({ [key]: value });
-  }
-
   render() {
-    const {
-      isShipped,
-      isArrived,
-      isSeized,
-    } = this.state;
     const {      
       shipLabel,
       shippedOptions,
@@ -34,6 +15,10 @@ class DateBox extends React.Component {
       seizedOptions,
       estimateLabel,
       estimatedDate,
+      isShipped,
+      isArrived,
+      isSeized,
+      handleChange,
     } = this.props;
 
     return (
@@ -50,7 +35,7 @@ class DateBox extends React.Component {
                 className={
                   classNames("date__option", { "active": isShipped === option.flag })
                 }
-                onClick={() => this.handleClick('isShipped', option.flag)}
+                onClick={() => handleChange('isShipped', option.flag)}
               >
                 <p>
                   {option.label}
@@ -71,7 +56,7 @@ class DateBox extends React.Component {
                 className={
                   classNames("date__option", { "active": isArrived === option.flag })
                 }
-                onClick={() => this.handleClick('isArrived', option.flag)}
+                onClick={() => handleChange('isArrived', option.flag)}
               >
                 <p>
                   {option.label}
@@ -107,7 +92,7 @@ class DateBox extends React.Component {
                 className={
                   classNames("date__option", { "active": isSeized === option.flag })
                 }
-                onClick={() => this.handleClick('isSeized', option.flag)}
+                onClick={() => handleChange('isSeized', option.flag)}
               >
                 <p>
                   {option.label}

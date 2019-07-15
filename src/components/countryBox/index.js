@@ -4,28 +4,19 @@ import Select from "react-select"
 import "./style.scss";
 
 class CountryBox extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { selectedOption: '' };
-  }
-
   getFormattedArray = (arr) => (
     arr.map(item => ({
       value: item.key,
       label: item.name,
     }))
   )
-
-  handleChange = selectedOption => {
-    this.setState({ selectedOption });
-  }
   
   render() {
-    const { selectedOption } = this.state;
     const {
       inputLabel,
       placeholder,
       countries,
+      originCountry,
     } = this.props;
 
     return (
@@ -34,8 +25,8 @@ class CountryBox extends React.Component {
           {inputLabel}
         </p>
         <Select
-          value={selectedOption}
-          onChange={this.handleChange}
+          value={originCountry}
+          onChange={this.props.handleSelect}
           options={this.getFormattedArray(countries)}
           placeholder={placeholder}
         />

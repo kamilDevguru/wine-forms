@@ -25,7 +25,7 @@ const getLocaleData = (props, key) => {
 
 const encode = (data) => {
   return Object.keys(data)
-      .map(key => encodeURIComponent + "=" + encodeURIComponent(data[key]))
+      .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
       .join("&");
 }
 
@@ -168,8 +168,11 @@ class IndexPage extends React.Component {
     return content;
   }
 
-  handleSubmit = () => {
+  handleSubmit = (e) => {
+    e.preventDefault();
+
     const {
+      activeStep,
       selectedProducts,
       originCountry,
       pickUpCity,
@@ -178,36 +181,31 @@ class IndexPage extends React.Component {
       isSeized,
       selectedServices,
     } = this.state;
+    
+    if (activeStep === 4) {
+      this.setState({ isSpinning: true });
 
-    this.setState({ isSpinning: true });
+      fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: encode({
+          "form-name": "wine-form",
+          selectedProducts,
+          originCountry: originCountry.value,
+          pickUpCity: pickUpCity.value,
+          isShipped,
+          isArrived,
+          isSeized,
+          selectedServices,
+        }),
+      })
+      .then(() => alert("Success!"))
+      .catch(error => alert(error));
 
-    fetch("/", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: encode({
-        "form-name": "wine-form",
-        selectedProducts,
-        originCountry: originCountry.value,
-        pickUpCity: pickUpCity.value,
-        isShipped,
-        isArrived,
-        isSeized,
-        selectedServices,
-      }),
-    })
-    .then(() => alert("Success!"))
-    .catch(error => alert(error));
-
-    this.setState({ isSpinning: false });
-  }
-
-  handleContinue = () => {
-    if (this.state.activeStep === 4) {
-      this.handleSubmit();
-      return;
+      this.setState({ isSpinning: false });    
     }
 
-    if (this.state.activeStep === 5) {
+    if (activeStep === 5) {
       return;
     }
   
@@ -233,8 +231,10 @@ class IndexPage extends React.Component {
         </div>
         <Form
           name="wine-form"
+          method="post"
           data-netlify="true"
           data-neltify-honeypot="bot-field"
+          onSubmit={this.handleSubmit}
         >
           <input type="hidden" name="bot-field" />
           <input type="hidden" name="form-name" value="wine-form" />
@@ -244,7 +244,7 @@ class IndexPage extends React.Component {
           <Button
             className="index__button"
             variant="primary"
-            onClick={this.handleContinue}
+            type="submit"
           >
             Continue
           </Button>

@@ -169,8 +169,6 @@ class IndexPage extends React.Component {
   }
 
   handleSubmit = (e) => {
-    e.preventDefault();
-
     const {
       activeStep,
       selectedProducts,
@@ -202,7 +200,7 @@ class IndexPage extends React.Component {
       .then(() => alert("Success!"))
       .catch(error => alert(error));
 
-      this.setState({ isSpinning: false });    
+      this.setState({ isSpinning: false });
     }
 
     if (activeStep === 5) {
@@ -211,7 +209,9 @@ class IndexPage extends React.Component {
   
     this.setState(({ activeStep }) => ({
       activeStep: activeStep + 1,
-    }));
+    }));    
+
+    e.preventDefault();
   }
 
   handleProductsChange = (products) => {
@@ -233,10 +233,10 @@ class IndexPage extends React.Component {
           name="wine-form"
           method="post"
           data-netlify="true"
-          data-neltify-honeypot="bot-field"
+          // data-neltify-honeypot="bot-field"
           onSubmit={this.handleSubmit}
         >
-          <input type="hidden" name="bot-field" />
+          {/* <input type="hidden" name="bot-field" /> */}
           <input type="hidden" name="form-name" value="wine-form" />
           <div className="index__content">
             {this.getContent()}

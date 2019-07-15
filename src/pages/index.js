@@ -23,6 +23,12 @@ const getLocaleData = (props, key) => {
   return props.data[key].edges.filter(item => item.node.node_locale.includes(langKey));
 }
 
+const encode = (data) => {
+  return Object.keys(data)
+      .map(key => encodeURIComponent + "=" + encodeURIComponent(data[key]))
+      .join("&");
+}
+
 class IndexPage extends React.Component {
   constructor(props) {
     super(props);
@@ -87,7 +93,7 @@ class IndexPage extends React.Component {
     return title;
   }
 
-  getContent = () => {   
+  getContent = () => {
     const {
       activeStep,
       productData,
@@ -109,7 +115,6 @@ class IndexPage extends React.Component {
 
     if (isSpinning) return <Spinner note={spinnerData.note} />
     let content = <div />;
-    console.log('this.state :', this.state);
 
     if (activeStep === 0) {
       content = (<Product
@@ -163,7 +168,45 @@ class IndexPage extends React.Component {
     return content;
   }
 
+  handleSubmit = () => {
+    const {
+      selectedProducts,
+      originCountry,
+      pickUpCity,
+      isShipped,
+      isArrived,
+      isSeized,
+      selectedServices,
+    } = this.state;
+
+    this.setState({ isSpinning: true });
+
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: encode({
+        "form-name": "wine-form",
+        selectedProducts,
+        originCountry: originCountry.value,
+        pickUpCity: pickUpCity.value,
+        isShipped,
+        isArrived,
+        isSeized,
+        selectedServices,
+      }),
+    })
+    .then(() => alert("Success!"))
+    .catch(error => alert(error));
+
+    this.setState({ isSpinning: false });
+  }
+
   handleContinue = () => {
+    if (this.state.activeStep === 4) {
+      this.handleSubmit();
+      return;
+    }
+
     if (this.state.activeStep === 5) {
       return;
     }
@@ -190,7 +233,6 @@ class IndexPage extends React.Component {
         </div>
         <Form
           name="wine-form"
-          method="post"
           data-netlify="true"
           data-neltify-honeypot="bot-field"
         >

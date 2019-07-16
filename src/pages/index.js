@@ -233,10 +233,10 @@ class IndexPage extends React.Component {
           name="wine-form"
           method="post"
           data-netlify="true"
-          // data-neltify-honeypot="bot-field"
+          data-neltify-honeypot="bot-field"
           onSubmit={this.handleSubmit}
         >
-          {/* <input type="hidden" name="bot-field" /> */}
+          <input type="hidden" name="bot-field" />
           <input type="hidden" name="form-name" value="wine-form" />
           <div className="index__content">
             {this.getContent()}
